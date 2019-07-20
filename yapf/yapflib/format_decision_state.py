@@ -869,7 +869,7 @@ class FormatDecisionState(object):
         penalty += split_penalty.VERY_STRONGLY_CONNECTED
       return penalty
 
-    if not self.param_list_stack:
+    if not self.param_list_stack or not self.param_list_stack[-1].parameters:
       return penalty
 
     param_list = self.param_list_stack[-1]
@@ -886,6 +886,8 @@ class FormatDecisionState(object):
         # Prefer splitting before the closing bracket if there's a return type
         # and we've already split before the first parameter.
         penalty += split_penalty.STRONGLY_CONNECTED
+
+      return penalty
 
     if newline:
       if self._FitsOnLine(param_list.parameters[0].first_token,
